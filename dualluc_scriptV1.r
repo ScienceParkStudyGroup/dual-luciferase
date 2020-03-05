@@ -11,13 +11,13 @@
 #set working path
 setwd("C:/DualReporterPipeline/")
 
-#install tidyverse package wich contains 3 essential componetns: tydr, ggplot2 and readxl. readxl enables reading excel files. 
-install.packages("tidyverse")
 # load the relevant libraries
 library(readxl)
 library(tidyr)
 library(ggplot2)
 library(dplyr)
+library(gridExtra)
+library(magrittr)
 
 # import excel output GloMax with readxl into a dataframe.The datasheet must be prepared by creating separate sheets for firefly and renilla.
 # import both data into separate dataframes
@@ -47,12 +47,8 @@ dev.off()
 #FR summary
 FR2_tidy2 <- FR_tidy %>%
   group_by(condition) %>%
-  dplyr::summarise(mean = mean(FR, na.rm = TRUE))
+  summarise(median = median(FR, na.rm = TRUE))
 FR_tidy2
-
-# produce a summar table
-install.packages("gridExtra")
-library(gridExtra)
 
 
 #produce a table in PDF for publication containing the mean FR ratio per condition
@@ -80,3 +76,8 @@ p2
 png("FC_lucexpression.png", width = 300, height = 300)
 plot(p2)
 dev.off()
+
+
+tbl_median <- tableGrob(t(FR2_tidy2), theme = ttheme_default(8))
+grid.arrange(p1, p2, tbl_median, ncol=2, nrow=2, as.table=TRUE, heights=c(3,1))
+

@@ -15,11 +15,9 @@ This R-based workflow is designed to standardize the analysis and publication of
 * save the data
 
 ## Prepare R environment
-install tidyverse package and load the following libraries
-* readxl
-* tidyr
-* ggplot2
-* dplyr
+install the necessary packages (if necessary):
+install.packages("readxl", "tidyr", "ggplot2", "dplyr","gridExtra", "magrittr")
+
 
 ## Data loading
 Excel data can be read by using the read_excel function and point directly to the sheet of interest.
