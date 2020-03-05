@@ -47,7 +47,7 @@ dev.off()
 #FR summary
 FR2_tidy2 <- FR_tidy %>%
   group_by(condition) %>%
-  summarise(median = median(FR, na.rm = TRUE))
+  summarise(median = median(FR, na.rm = TRUE), mean = mean(FR, na.rm = TRUE))
 FR_tidy2
 
 
