@@ -29,7 +29,7 @@ firefly <- all_data_from_excel[19:26,6:17] %>% unlist()
 #Subset renilla data
 renilla <- all_data_from_excel[40:47,6:17] %>% unlist()
 
-#Read conditions from a csv file
+#Read conditions from a csv file - empty cells are interpreted as NA
 df_conditions <- read.csv("conditions.csv", stringsAsFactors = FALSE, na.strings = c("","NA","na"))
 
 #Subset the dataframe, to select only conditions (get rid of row names)
@@ -82,7 +82,7 @@ FR2_tidy2
 
 #produce a table in PDF for publication containing the mean FR ratio per condition
 pdf("FR1.pdf", height=11, width=10)
-grid.table(FR_tidy2)
+grid.table(FR2_tidy2)
 dev.off()
 
 #doing the relative calculation i.e. normalize to expression of the empty vector "Ev"
