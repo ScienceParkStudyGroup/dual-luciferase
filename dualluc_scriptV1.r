@@ -7,10 +7,6 @@
 # level 2 calculations: normalize expression of experimental to control condition
 # plot relative expression 
 
-
-#set working path
-setwd("C:/DualReporterPipeline/")
-
 # load the relevant libraries
 library(readxl)
 library(tidyr)
