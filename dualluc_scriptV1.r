@@ -19,12 +19,18 @@ library(dplyr)
 library(gridExtra)
 library(magrittr)
 
-# import excel output GloMax with readxl into a dataframe.The datasheet needs a sheet labeled "Conditions" that indicates the conditions for each of the 96 wells
-# import data into separate dataframes and convert each to a vector
+# import complete excel output GloMax with readxl into a dataframe.
 # either point to number or name of the correct sheet 
-firefly <- read_excel("DualReporter_example_data.xlsx", sheet = "Results", range = "F21:Q28", col_names = F) %>% unlist()
-renilla <- read_excel("DualReporter_example_data.xlsx", sheet = "Results", range = "F42:Q49", col_names = F) %>% unlist()
-condition <- read_excel("DualReporter_example_data.xlsx", sheet = "Conditions", range = "A1:L8", col_names = F) %>% unlist()
+all_data_from_excel <- read_excel("DualReporter_example_data.xlsx", sheet = "Results")
+
+#Subset firefly data
+firefly <- all_data_from_excel[19:26,6:17] %>% unlist()
+
+#Subset renilla data
+renilla <- all_data_from_excel[40:47,6:17] %>% unlist()
+
+conditions_from_excel <- read_excel("DualReporter_example_data.xlsx", sheet = "conditions")
+conditions <- conditions_from_excel[1:8,2:13] %>% unlist()
 
 #Combine all vectors in a (tidy) dataframe, remove data that has no condition associated with it
 #Note: By using filtering for NA, the 'condition' vector defines the data you want to analyze/display
@@ -59,7 +65,6 @@ png("FR_summary.png", width = 300, height = 300)
 plot(p1)
 dev.off()
 
-
 #FR summary
 FR2_tidy2 <- FR_tidy %>%
   group_by(condition) %>%
@@ -75,14 +80,20 @@ grid.table(FR_tidy2)
 dev.off()
 
 #doing the relative calculation i.e. normalize to expression of the empty vector "Ev"
-cond1 <- FR$B/FR$A
-cond2 <- FR$C/FR$A
-relative <- tibble(cond1, cond2)
-relative_tidy <- gather(relative, condition, FC)
-relative_tidy
+#Calculate the average of the EV control
+EV_mean <- FR_tidy %>% filter(condition=="Control") %>% summarise(mean_EV_FR=mean(FR))  %>% unlist(use.names = FALSE)
+
+#Divide FR by EV control value
+FR_tidy <- FR_tidy %>% mutate(FC = FR/EV_mean)
+
+# cond1 <- FR$B/FR$A
+# cond2 <- FR$C/FR$A
+# relative <- tibble(cond1, cond2)
+# relative_tidy <- gather(relative, condition, FC)
+# relative_tidy
 
 
-p2 <- ggplot(relative_tidy, aes(condition, FC)) + 
+p2 <- ggplot(FR_tidy, aes(condition, FC)) + 
   geom_point() +
   stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median,
                geom = "crossbar", width = 0.2) +
