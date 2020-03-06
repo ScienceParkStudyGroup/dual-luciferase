@@ -4,15 +4,11 @@ A pipeline to process dual luciferase assay results.
 This R-based workflow is designed to standardize the analysis and publication of dual reporter systems. The main objective is to facilitate calculation and visualization of differential expression between a tested and reference gene. Promega's GloMax luminescence machine produces an excel sheet with expression data for the reporter and the control condition, which will be used as input for the script.
 
 ## Input data (expressed as arbitrary luminescence units)
-* excel sheet containing 2 tables in 96-well lay-out.
-* table 1: reporter expression data (firefly)
-* table 2: internal control data (renilla)
+* excel sheet containing 2 tables in 96-well lay-out (raw output from a Promega GloMax® Navigator)
+* conditions.csv which is a CSV file in which conditions are indicated in a 96-well lay-out
 
 ## Data preparation
-* create 2 new sheets named "firefly" and "renilla"
-* copy and past raw expression data from the "result" sheet to the newly created sheets
-* give each column a simple name such as A, B and C. These should be the same in both sheets
-* save the data
+* Adjust conditions.csv to reflect the conditions (empyt cells will not be used in the analysis)
 
 ## Prepare R environment
 install the necessary packages (if necessary):
