@@ -85,6 +85,14 @@ pdf("FR1.pdf", height=11, width=10)
 grid.table(FR2_tidy2)
 dev.off()
 
+#Attemp to spread the dataframe. However, each row is kept as independent measurement. The goal here is to create a table containing the technical replicates of the experiment.
+FR_tidy4 <- df %>%
+  select(condition, FR) %>%
+  mutate(grouped_id = row_number()) %>%
+  group_by(condition) %>%
+  spread(key = condition, value = FR, fill = FALSE) %>%
+  select(-grouped_id)
+
 #doing the relative calculation i.e. normalize to expression of the empty vector "Ev"
 #Calculate the average of the EV control
 EV_mean <- FR_tidy %>% filter(condition=="Control") %>% summarise(mean_EV_FR=mean(FR))  %>% unlist(use.names = FALSE)
