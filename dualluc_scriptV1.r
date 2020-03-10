@@ -29,8 +29,14 @@ firefly <- all_data_from_excel[19:26,6:17] %>% unlist()
 #Subset renilla data
 renilla <- all_data_from_excel[40:47,6:17] %>% unlist()
 
-conditions_from_excel <- read_excel("DualReporter_example_data.xlsx", sheet = "conditions")
-conditions <- conditions_from_excel[1:8,2:13] %>% unlist()
+#Read conditions from a csv file - empty cells are interpreted as NA
+df_conditions <- read.csv("conditions.csv", stringsAsFactors = FALSE, na.strings = c("","NA","na"))
+
+#Subset the dataframe, to select only conditions (get rid of row names)
+df_conditions <- df_conditions[1:8,2:13] 
+
+#Convert the dataframe with conditions to a vector
+condition <- df_conditions %>% unlist(use.names = FALSE)
 
 #Combine all vectors in a (tidy) dataframe, remove data that has no condition associated with it
 #Note: By using filtering for NA, the 'condition' vector defines the data you want to analyze/display
@@ -76,7 +82,7 @@ FR2_tidy2
 
 #produce a table in PDF for publication containing the mean FR ratio per condition
 pdf("FR1.pdf", height=11, width=10)
-grid.table(FR_tidy2)
+grid.table(FR2_tidy2)
 dev.off()
 
 #doing the relative calculation i.e. normalize to expression of the empty vector "Ev"
