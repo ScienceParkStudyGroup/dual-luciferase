@@ -36,12 +36,26 @@ The newly obtained FR ratio can be used to calculate relative expression between
 * Expression fold-changes should be calculated relative to column A.
 * To obtain relative change in expression of condition B, calculate B/A
 
+## Desired Output
+* Summary table of normalized expression per condition --> FR ratios.
+This table contains each datapoint, the mean, median and standard deviation
+	
+* Dot plot of data points, grouped per experimental condition.
+	* x-axis: control and experimental conditions
+	* y-axis: FR ratio
+	* Stats: median 
+
+* Dot plots of expression relative to the control condition (emtpy vector, vehicle etc) 
+	* x-axis: experimental conditions
+	* y-axis: Fold-Change expression / control condition
+	* Stats: median 
+
 ## Output examples
 ![example plot of FR ratios of each reporter conditions. Bar shows median](https://github.com/ebrando/dual-luciferase/blob/master/FR_summary.png)
 ![example plot of relative expressions, normalized to the empty vector. Bar shows median](https://github.com/ebrando/dual-luciferase/blob/master/FC_lucexpression.png)
     
 ## Future
-In case of multiple experimental conditions, it can be useful to plot only those conditions that are relevant. 
+In case of multiple experimental conditions, it can be useful to plot a selection of relevant conditions. 
 
 	
 	
