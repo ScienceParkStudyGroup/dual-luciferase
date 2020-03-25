@@ -1,5 +1,5 @@
 # Dual Luciferase Analysis Pipeline
-# Elias Brandorff, SILS Amsterdam Version 1
+# Elias Brandorff, SILS Amsterdam 
 # import excel data from GloMax luminescence machine
 # level 1 calculations: normalize expression to internal control 
 # plot normalized expression values
@@ -8,10 +8,19 @@
 # plot relative expression 
 
 
-#set working path
-setwd("C:/DualReporterPipeline/")
+##########
+# Library
+#########
 
-# load the relevant libraries
+if (! "checkpoint" %in% installed.packages()){
+  install.packages("checkpoint")
+}
+
+library("checkpoint")
+checkpoint("2020-01-01")
+
+
+# these package versions will be from 2020-01-01 
 library(readxl)
 library(tidyr)
 library(ggplot2)
@@ -19,6 +28,10 @@ library(dplyr)
 library(gridExtra)
 library(magrittr)
 
+
+##############
+# Data import
+##############
 # import complete excel output GloMax with readxl into a dataframe.
 # either point to number or name of the correct sheet 
 all_data_from_excel <- read_excel("Dual Luciferase Reporter Assay System ELIAS 2020.03.10 05_34_44.xlsx", sheet = "Results")
