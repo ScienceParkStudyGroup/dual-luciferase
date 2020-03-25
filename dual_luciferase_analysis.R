@@ -34,16 +34,16 @@ library(magrittr)
 ##############
 # import complete excel output GloMax with readxl into a dataframe.
 # either point to number or name of the correct sheet 
-all_data_from_excel <- read_excel("Dual Luciferase Reporter Assay System ELIAS 2020.03.10 05_34_44.xlsx", sheet = "Results")
+all_data_from_excel <- read_excel("DualReporter_example_data.xlsx", sheet = "Results")
 
-#Subset firefly data
+# Subset firefly data
 firefly <- all_data_from_excel[19:26,6:17] %>% unlist()
 
-#Subset renilla data
+# Subset renilla data
 renilla <- all_data_from_excel[40:47,6:17] %>% unlist()
 
-#Read conditions from a csv file - empty cells are interpreted as NA
-df_conditions <- read.csv("conditions_exp1.csv", stringsAsFactors = FALSE, na.strings = c("","NA","na"))
+# Read conditions from a csv file - empty cells are interpreted as NA
+df_conditions <- read.csv("testdata/conditions_exp1.csv", stringsAsFactors = FALSE, na.strings = c("","NA","na"))
 
 #Subset the dataframe, to select only conditions (get rid of row names)
 df_conditions <- df_conditions[1:8,2:13] 
@@ -66,7 +66,7 @@ df$condition <- factor(df$condition, levels=unique(df$condition))
 
 FR_tidy <- df
 
-#plotting FR ratios for data overview
+# plotting FR ratios for data overview
 p1 <- ggplot(FR_tidy, aes(x = condition, y = FR)) +
   geom_jitter(position=position_jitter(0.1), cex=2, color="grey40") +
   stat_summary(fun = median, fun.min = median, fun.max = median,
